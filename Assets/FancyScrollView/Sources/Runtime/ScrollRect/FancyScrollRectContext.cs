@@ -9,7 +9,7 @@ using System;
 namespace FancyScrollView
 {
     /// <summary>
-    /// <see cref="FancyScrollRect{TItemData, TContext}"/> のコンテキスト基底クラス.
+    /// <see cref="FancyScrollRect{TItemData, TContext}"/> context base class.
     /// </summary>
     public class FancyScrollRectContext : IFancyScrollRectContext
     {

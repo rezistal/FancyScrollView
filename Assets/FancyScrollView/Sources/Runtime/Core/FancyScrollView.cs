@@ -10,82 +10,82 @@ using UnityEngine;
 namespace FancyScrollView
 {
     /// <summary>
-    /// スクロールビューを実装するための抽象基底クラス.
-    /// 無限スクロールおよびスナップに対応しています.
-    /// <see cref="FancyScrollView{TItemData, TContext}.Context"/> が不要な場合は
-    /// 代わりに <see cref="FancyScrollView{TItemData}"/> を使用します.
+    /// An abstract base class for implementing scroll views.
+    /// Supports infinite scrolling and snapping.
+    /// If you don't need <see cref="FancyScrollView{TItemData, TContext}.Context"/>
+    /// Use  <see cref="FancyScrollView{TItemData}"/> instead.
     /// </summary>
-    /// <typeparam name="TItemData">アイテムのデータ型.</typeparam>
-    /// <typeparam name="TContext"><see cref="Context"/> の型.</typeparam>
+    /// <typeparam name="TItemData">Item data type.</typeparam>
+    /// <typeparam name="TContext"><see cref="Context"/>type.</typeparam>
     public abstract class FancyScrollView<TItemData, TContext> : MonoBehaviour where TContext : class, new()
     {
         /// <summary>
-        /// セル同士の間隔.
+        /// Spacing between cells.
         /// </summary>
         [SerializeField, Range(1e-2f, 1f)] protected float cellInterval = 0.2f;
 
         /// <summary>
-        /// スクロール位置の基準.
+        /// Criteria for scroll position.
         /// </summary>
         /// <remarks>
-        /// たとえば、 <c>0.5</c> を指定してスクロール位置が <c>0</c> の場合, 中央に最初のセルが配置されます.
+        /// For example, if <c>0.5</c> is specified and the scroll position is <c>0</c>, the first cell will be placed in the center.
         /// </remarks>
         [SerializeField, Range(0f, 1f)] protected float scrollOffset = 0.5f;
 
         /// <summary>
-        /// セルを循環して配置させるどうか.
+        /// Do you want to cycle the cells?
         /// </summary>
         /// <remarks>
-        /// <c>true</c> にすると最後のセルの後に最初のセル, 最初のセルの前に最後のセルが並ぶようになります.
-        /// 無限スクロールを実装する場合は <c>true</c> を指定します.
+        /// <c>true</c> will put the first cell after the last cell and the last cell before the first cell.
+        /// Specify <c>true</c> to implement infinite scrolling.
         /// </remarks>
         [SerializeField] protected bool loop = false;
 
         /// <summary>
-        /// セルの親要素となる <c>Transform</c>.
+        /// The parent element of the cell <c>Transform</c>.
         /// </summary>
         [SerializeField] protected Transform cellContainer = default;
 
         readonly IList<FancyCell<TItemData, TContext>> pool = new List<FancyCell<TItemData, TContext>>();
 
         /// <summary>
-        /// 初期化済みかどうか.
+        /// Whether it has been initialized.
         /// </summary>
         protected bool initialized;
 
         /// <summary>
-        /// 現在のスクロール位置.
+        /// Current scroll position.
         /// </summary>
         protected float currentPosition;
 
         /// <summary>
-        /// セルの Prefab.
+        /// Cell Prefab.
         /// </summary>
         protected abstract GameObject CellPrefab { get; }
 
         /// <summary>
-        /// アイテム一覧のデータ.
+        /// Item list data.
         /// </summary>
         protected IList<TItemData> ItemsSource { get; set; } = new List<TItemData>();
 
         /// <summary>
-        /// <typeparamref name="TContext"/> のインスタンス.
-        /// セルとスクロールビュー間で同じインスタンスが共有されます. 情報の受け渡しや状態の保持に使用します.
+        /// <typeparamref name="TContext"/> instance.
+        /// The same instance is shared between the cell and the scroll view. Used for passing information and preserving state.
         /// </summary>
         protected TContext Context { get; } = new TContext();
 
         /// <summary>
-        /// 初期化を行います.
+        /// Initialize.
         /// </summary>
         /// <remarks>
-        /// 最初にセルが生成される直前に呼び出されます.
+        /// Called just before the first cell is created.
         /// </remarks>
         protected virtual void Initialize() { }
 
         /// <summary>
-        /// 渡されたアイテム一覧に基づいて表示内容を更新します.
+        /// Update the display contents based on the passed item list.
         /// </summary>
-        /// <param name="itemsSource">アイテム一覧.</param>
+        /// <param name="itemsSource">Item list.</param>
         protected virtual void UpdateContents(IList<TItemData> itemsSource)
         {
             ItemsSource = itemsSource;
@@ -93,19 +93,19 @@ namespace FancyScrollView
         }
 
         /// <summary>
-        /// セルのレイアウトを強制的に更新します.
+        /// Force the cell layout to be updated.
         /// </summary>
         protected virtual void Relayout() => UpdatePosition(currentPosition, false);
 
         /// <summary>
-        /// セルのレイアウトと表示内容を強制的に更新します.
+        /// Forcibly update the cell layout and display contents.
         /// </summary>
         protected virtual void Refresh() => UpdatePosition(currentPosition, true);
 
         /// <summary>
-        /// スクロール位置を更新します.
+        /// Update the scroll position.
         /// </summary>
-        /// <param name="position">スクロール位置.</param>
+        /// <param name="position">scroll position.</param>
         protected virtual void UpdatePosition(float position) => UpdatePosition(position, false);
 
         void UpdatePosition(float position, bool forceRefresh)
@@ -206,13 +206,13 @@ namespace FancyScrollView
     }
 
     /// <summary>
-    /// <see cref="FancyScrollView{TItemData}"/> のコンテキストクラス.
+    /// <see cref="FancyScrollView{TItemData}"/> context class.
     /// </summary>
     public sealed class NullContext { }
 
     /// <summary>
-    /// スクロールビューを実装するための抽象基底クラス.
-    /// 無限スクロールおよびスナップに対応しています.
+    /// An abstract base class for implementing scroll views.
+    /// Supports infinite scrolling and snapping.
     /// </summary>
     /// <typeparam name="TItemData"></typeparam>
     /// <seealso cref="FancyScrollView{TItemData, TContext}"/>

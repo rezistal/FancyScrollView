@@ -9,64 +9,64 @@ using UnityEngine;
 namespace FancyScrollView
 {
     /// <summary>
-    /// <see cref="FancyScrollView{TItemData, TContext}"/> のセルを実装するための抽象基底クラス.
-    /// <see cref="FancyCell{TItemData, TContext}.Context"/> が不要な場合は
-    /// 代わりに <see cref="FancyCell{TItemData}"/> を使用します.
+    /// <see cref="FancyScrollView{TItemData, TContext}"/> Abstract base class for implementing cells.
+    /// <see cref="FancyCell{TItemData, TContext}"/> If you don't need <see cref="Context"/>
+    /// Use  <see cref="FancyCell{TItemData}"/> instead.
     /// </summary>
-    /// <typeparam name="TItemData">アイテムのデータ型.</typeparam>
-    /// <typeparam name="TContext"><see cref="Context"/> の型.</typeparam>
+    /// <typeparam name="TItemData">Item data type.</typeparam>
+    /// <typeparam name="TContext"><see cref="Context"/>type.</typeparam>
     public abstract class FancyCell<TItemData, TContext> : MonoBehaviour where TContext : class, new()
     {
         /// <summary>
-        /// このセルで表示しているデータのインデックス.
+        /// Index of the data displayed in this cell.
         /// </summary>
         public int Index { get; set; } = -1;
 
         /// <summary>
-        /// このセルの可視状態.
+        /// Visible state of this cell.
         /// </summary>
         public virtual bool IsVisible => gameObject.activeSelf;
 
         /// <summary>
-        /// <see cref="FancyScrollView{TItemData, TContext}.Context"/> の参照.
-        /// セルとスクロールビュー間で同じインスタンスが共有されます. 情報の受け渡しや状態の保持に使用します.
+        /// Refer to <see cref="FancyScrollView{TItemData, TContext}.Context"/> 
+        /// The same instance is shared between the cell and the scroll view. Used for passing information and preserving state.
         /// </summary>
         protected TContext Context { get; private set; }
 
         /// <summary>
-        /// <see cref="Context"/> をセットします.
+        /// <see cref="Context"/> is set.
         /// </summary>
-        /// <param name="context">コンテキスト.</param>
+        /// <param name="context">context.</param>
         public virtual void SetContext(TContext context) => Context = context;
 
         /// <summary>
-        /// 初期化を行います.
+        /// Initialize.
         /// </summary>
         public virtual void Initialize() { }
 
         /// <summary>
-        /// このセルの可視状態を設定します.
+        /// Set the visibility of this cell.
         /// </summary>
-        /// <param name="visible">可視状態なら <c>true</c>, 非可視状態なら <c>false</c>.</param>
+        /// <param name="visible"><c>true</c> in the visible state, <c>false</c> in the invisible state.</param>
         public virtual void SetVisible(bool visible) => gameObject.SetActive(visible);
 
         /// <summary>
-        /// アイテムデータに基づいてこのセルの表示内容を更新します.
+        /// Update the display contents of this cell based on the item data.
         /// </summary>
-        /// <param name="itemData">アイテムデータ.</param>
+        /// <param name="itemData">Item data.</param>
         public abstract void UpdateContent(TItemData itemData);
 
         /// <summary>
-        /// <c>0.0f</c> ~ <c>1.0f</c> の値に基づいてこのセルのスクロール位置を更新します.
+        /// Updates the scroll position of this cell based on the value of <c>0.0f</c> ~ <c>1.0f</c>
         /// </summary>
-        /// <param name="position">ビューポート範囲の正規化されたスクロール位置.</param>
+        /// <param name="position">Normalized scroll position in viewport range.</param>
         public abstract void UpdatePosition(float position);
     }
 
     /// <summary>
-    /// <see cref="FancyScrollView{TItemData}"/> のセルを実装するための抽象基底クラス.
+    /// <see cref="FancyScrollView{TItemData}"/> Abstract base class for implementing cells.
     /// </summary>
-    /// <typeparam name="TItemData">アイテムのデータ型.</typeparam>
+    /// <typeparam name="TItemData">Item data type.</typeparam>
     /// <seealso cref="FancyCell{TItemData, TContext}"/>
     public abstract class FancyCell<TItemData> : FancyCell<TItemData, NullContext>
     {

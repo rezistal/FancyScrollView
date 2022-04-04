@@ -9,7 +9,7 @@ using System;
 namespace FancyScrollView
 {
     /// <summary>
-    /// <see cref="FancyGridView{TItemData, TContext}"/> のコンテキストインターフェース.
+    /// <see cref="FancyGridView{TItemData, TContext}"/> context interface.
     /// </summary>
     public interface IFancyGridViewContext : IFancyScrollRectContext, IFancyCellGroupContext
     {

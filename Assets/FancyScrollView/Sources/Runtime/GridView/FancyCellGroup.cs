@@ -10,22 +10,22 @@ using System.Linq;
 namespace FancyScrollView
 {
     /// <summary>
-    /// 複数の <see cref="FancyCell{TItemData, TContext}"/> を持つセルグループ実装するための抽象基底クラス.
+    /// An abstract base class for implementing a cell group with multiple <see cref="FancyCell{TItemData, TContext}"/>
     /// </summary>
-    /// <typeparam name="TItemData">アイテムのデータ型.</typeparam>
-    /// <typeparam name="TContext"><see cref="FancyCell{TItemData, TContext}.Context"/> の型.</typeparam>
+    /// <typeparam name="TItemData">Item data type.</typeparam>
+    /// <typeparam name="TContext"><see cref="FancyCell{TItemData, TContext}.Context"/> type.</typeparam>
     public abstract class FancyCellGroup<TItemData, TContext> : FancyCell<TItemData[], TContext>
         where TContext : class, IFancyCellGroupContext, new()
     {
         /// <summary>
-        /// このグループで表示するセルの配列.
+        /// Array of cells to display in this group.
         /// </summary>
         protected virtual FancyCell<TItemData, TContext>[] Cells { get; private set; }
 
         /// <summary>
-        /// このグループで表示するセルの配列をインスタンス化します.
+        /// Instantiate an array of cells to display in this group.
         /// </summary>
-        /// <returns>このグループで表示するセルの配列.</returns>
+        /// <returns>Array of cells to display in this group.</returns>
         protected virtual FancyCell<TItemData, TContext>[] InstantiateCells()
         {
             return Enumerable.Range(0, Context.GetGroupCount())
